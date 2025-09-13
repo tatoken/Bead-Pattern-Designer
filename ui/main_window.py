@@ -1,7 +1,11 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel, QComboBox, QFileDialog, QColorDialog, QFrame
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import QSize
 from ui.canvas_view import CanvasView
 from models.pattern import CanvasScene
 from utils.pdf_export import export_pattern_pdf
+
+from layout.Button_layout import MAIN_BUTTON_LAYOUT
 
 class main_window(QMainWindow):
     def __init__(self):
@@ -12,14 +16,46 @@ class main_window(QMainWindow):
         self.view = CanvasView(self.scene)
 
         container = QWidget()
+        container.setStyleSheet("""
+                            QFrame {
+                                background-color: #1D1E18;  /* blu scuro */
+                                border-radius: 5px;
+                            }
+                        """)
+
         layout = QHBoxLayout()
         left = QVBoxLayout()
 
         toolbar = QFrame()
+
+        toolbar.setStyleSheet("""
+                            QFrame {
+                                background-color: #6B8F71;  /* blu scuro */
+                                border-radius: 5px;
+                            }
+                        """)
+
+
         tb_layout = QVBoxLayout()
 
-        # Tool buttons
         draw_btn = QPushButton("Disegna")
+        draw_btn.setIcon(QIcon("resources/brush.svg"))
+        draw_btn.setFixedSize(40, 40)
+        draw_btn.setIconSize(QSize(40,40))
+        draw_btn.setCheckable(True)
+        draw_btn.setStyleSheet(MAIN_BUTTON_LAYOUT)
+
+        # Connessione a funzione per attivare/disattivare flag
+        def toggle_draw(checked):
+            if checked:
+                print("Modalità disegno attivata")
+                # qui setti il flag True
+            else:
+                print("Modalità disegno disattivata")
+                # qui setti il flag False
+
+        draw_btn.toggled.connect(toggle_draw)
+        
         erase_btn = QPushButton("Cancella")
         pan_btn = QPushButton("Pan")
         export_pdf_btn = QPushButton("Esporta PDF")
@@ -53,7 +89,6 @@ class main_window(QMainWindow):
 
         self.status = self.statusBar()
         self.status.showMessage("Pronto")
-        self.set_tool("draw")
 
         self.bead_size_cm = 0.4
 

@@ -9,7 +9,7 @@ class CanvasScene(QGraphicsScene):
         self.cell_size = cell_pixel_size
         self.cells = {}       # (x,y) -> CellItem
         self.indicators = {}  # (x,y) -> ExpansionIndicator
-        self.current_color = QColor(200, 30, 30)
+        self.current_color = QColor(230, 239, 233)
         self.tool = "draw"
         self._init_center()
 

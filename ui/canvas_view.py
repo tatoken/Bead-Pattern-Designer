@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QGraphicsView, QApplication
-from PyQt6.QtGui import QPainter
+from PyQt6.QtGui import QPainter,QBrush, QColor
 from PyQt6.QtCore import Qt
 
 
@@ -11,6 +11,12 @@ class CanvasView(QGraphicsView):
         self._pan = False
         self._last_pan_point = None
         self.zoom_level = 0
+        self.setStyleSheet("""
+            QGraphicsView {
+                border-radius: 15px;
+                border: 2px solid #ecf0f1;  /* opzionale, per vedere il bordo */
+            }
+        """)
 
     def wheelEvent(self, event):
         zoom_in_factor = 1.25
