@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from ui.main_window import main_window
+from bead_pattern_designer.ui.main_window import main_window
 
 def main():
     app = QApplication(sys.argv)

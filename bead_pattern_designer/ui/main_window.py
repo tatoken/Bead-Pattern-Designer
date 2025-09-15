@@ -5,9 +5,9 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize,Qt
-from ui.canvas_view import CanvasView
-from models.pattern import CanvasScene
-from utils.pdf_export import export_pattern_pdf
+from bead_pattern_designer.ui.canvas_view import CanvasView
+from bead_pattern_designer.models.pattern import CanvasScene
+from bead_pattern_designer.utils.pdf_export import export_pattern_pdf
 
 from layout.Button_layout import MAIN_BUTTON_LAYOUT
 

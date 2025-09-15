@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QGraphicsScene
 from PyQt6.QtGui import QColor,QBrush
-from models.cell import CellItem, ExpansionIndicator, CELL_DEFAULT_COLOR
+from bead_pattern_designer.models.cell import CellItem, ExpansionIndicator, CELL_DEFAULT_COLOR
 from PyQt6.QtCore import QRectF
 
 class CanvasScene(QGraphicsScene):
