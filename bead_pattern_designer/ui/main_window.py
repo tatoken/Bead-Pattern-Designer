@@ -9,7 +9,7 @@ from bead_pattern_designer.ui.canvas_view import CanvasView
 from bead_pattern_designer.models.pattern import CanvasScene
 from bead_pattern_designer.utils.pdf_export import export_pattern_pdf
 
-from layout.Button_layout import MAIN_BUTTON_LAYOUT
+from bead_pattern_designer.layout.Button_layout import MAIN_BUTTON_LAYOUT
 
 
 class main_window(QMainWindow):
