@@ -48,26 +48,11 @@ class CanvasView(QGraphicsView):
 
 
     def mousePressEvent(self, event):
-        if self._pan_active and event.button() == Qt.MouseButton.LeftButton:
-            self._panning = True
-            self._last_pan_point = event.pos()
-            self.setCursor(Qt.CursorShape.ClosedHandCursor)
-            return  # non passare l'evento alla scena
         super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
-        if self._panning and self._last_pan_point:
-            delta = event.pos() - self._last_pan_point
-            self._last_pan_point = event.pos()
-            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - delta.x())
-            self.verticalScrollBar().setValue(self.verticalScrollBar().value() - delta.y())
-            return
         super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
-        if self._panning and event.button() == Qt.MouseButton.LeftButton:
-            self._panning = False
-            self.setCursor(Qt.CursorShape.ArrowCursor)
-            return
         super().mouseReleaseEvent(event)
 

@@ -8,9 +8,7 @@ from PyQt6.QtCore import QSize,Qt
 from bead_pattern_designer.ui.canvas_view import CanvasView
 from bead_pattern_designer.models.pattern import CanvasScene
 from bead_pattern_designer.utils.pdf_export import export_pattern_pdf
-
 from bead_pattern_designer.layout.Button_layout import MAIN_BUTTON_LAYOUT
-
 
 class main_window(QMainWindow):
     def __init__(self):
@@ -75,12 +73,8 @@ class main_window(QMainWindow):
         tb_layout = QVBoxLayout(toolbar)
         
 
-        draw_btn = QPushButton("")
-        draw_btn.setIcon(QIcon("resources/brush.svg"))
-        draw_btn.setFixedSize(40, 40)
-        draw_btn.setIconSize(QSize(40, 40))
+        draw_btn = QPushButton("Disegna")
         draw_btn.setCheckable(True)
-        draw_btn.setStyleSheet(MAIN_BUTTON_LAYOUT)
 
         erase_btn = QPushButton("Cancella")
         pan_btn = QPushButton("Pan")

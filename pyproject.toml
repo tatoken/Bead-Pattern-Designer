@@ -1,6 +1,6 @@
 [project]
 name = "bead-pattern-designer"
-version = "0.1.0"
+version = "0.0.1"
 description = "App per disegnare modelli di perline ed esportarli in PDF"
 authors = [
     { name = "Marco Lizza", email = "marcolizza1@gmail.com" }
