@@ -1,30 +1,45 @@
 from PyQt6.QtWidgets import QGraphicsScene
-from PyQt6.QtGui import QColor
+from PyQt6.QtGui import QColor,QBrush
 from models.cell import CellItem, ExpansionIndicator, CELL_DEFAULT_COLOR
-
+from PyQt6.QtCore import QRectF
 
 class CanvasScene(QGraphicsScene):
-    def __init__(self, cell_pixel_size):
+    def __init__(self, width=1000, height=800, cell_pixel_size=20):
         super().__init__()
         self.cell_size = cell_pixel_size
-        self.cells = {}       # (x,y) -> CellItem
-        self.indicators = {}  # (x,y) -> ExpansionIndicator
+        self.cells = {}
+        self.center=(10,0)
+        self.indicators = {}
         self.current_color = QColor(230, 239, 233)
         self.tool = "draw"
+
+        self.setSceneRect(0,0, width, height)
+        canvas_bg = self.addRect(QRectF(0, 0, width, height),
+                                 brush=QBrush(QColor("#ffffff")))  # bianco
+        canvas_bg.setZValue(-1)  
+
         self._init_center()
 
+
     def _init_center(self):
-        self.add_cell(0, 0)
+        self.add_center()
+        self.update_indicators()
+
+    def add_center(self):
+        item = CellItem(self.center[0], self.center[1], self.cell_size, color=CELL_DEFAULT_COLOR)
+        item.setPos(self.center[0],self.center[1])
+        self.addItem(item)
+        self.cells[(self.center[0], self.center[1])] = item
         self.update_indicators()
 
     def add_cell(self, gx, gy, color=CELL_DEFAULT_COLOR):
         if (gx, gy) in self.cells:
             return self.cells[(gx, gy)]
         item = CellItem(gx, gy, self.cell_size, color)
-        item.setPos(gx * self.cell_size, gy * self.cell_size)
-        self.addItem(item)
-        self.cells[(gx, gy)] = item
         if (gx, gy) in self.indicators:
+            item.setPos(gx * self.cell_size, gy * self.cell_size)
+            self.addItem(item)
+            self.cells[(gx, gy)] = item
             self.removeItem(self.indicators[(gx, gy)])
             del self.indicators[(gx, gy)]
         self.update_indicators()
@@ -37,10 +52,24 @@ class CanvasScene(QGraphicsScene):
         del self.cells[(gx, gy)]
         self.update_indicators()
 
+    def reset(self):
+        for item in list(self.cells.values()):
+            self.removeItem(item)
+        self.cells.clear()
+
+        for item in list(self.indicators.values()):
+            self.removeItem(item)
+        self.indicators.clear()
+
+        self.add_center()
+        self.update_indicators()
+
+
+
     def update_indicators(self):
         neighbors = set()
         for (x, y) in self.cells.keys():
-            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1),(-1,-1),(-1,1),(1,1),(1,-1)]:
                 pos = (x + dx, y + dy)
                 if pos not in self.cells:
                     neighbors.add(pos)
@@ -108,3 +137,10 @@ class CanvasScene(QGraphicsScene):
                 if (gx, gy) in self.cells:
                     self.remove_cell(gx, gy)
         super().mouseMoveEvent(ev)
+
+    def border(self):
+        res=[]
+        for i in self.cells:
+            if( not ((self.cells[0]+1,self.cells[1]) in self.cells)):
+                print()
+        

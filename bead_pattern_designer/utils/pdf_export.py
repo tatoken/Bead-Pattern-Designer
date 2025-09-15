@@ -1,4 +1,4 @@
-from PyQt6.QtGui import QPainter, QColor, QPdfWriter,QPageSize
+from PyQt6.QtGui import QPainter, QColor, QPdfWriter, QPageSize
 from PyQt6.QtCore import QRectF, QSizeF
 
 def export_pattern_pdf(filename, scene, bead_size_cm, status_bar=None):
@@ -23,16 +23,21 @@ def export_pattern_pdf(filename, scene, bead_size_cm, status_bar=None):
     pdf.setPageSize(QPageSize(QSizeF(width_cm * 10, height_cm * 10), QPageSize.Unit.Millimeter))
 
     painter = QPainter(pdf)
-    rect = QRectF(minx * scene.cell_size, miny * scene.cell_size,
-                  w_beads * scene.cell_size, h_beads * scene.cell_size)
+    painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-    painter.setWindow(rect.toRect())
-    painter.setViewport(0, 0,
-                        int(width_cm / 2.54 * pdf.resolution()),
-                        int(height_cm / 2.54 * pdf.resolution()))
+    # calcolo il rettangolo delle celle da esportare in coordinate scena
+    rect = QRectF(minx * scene.cell_size,
+                  miny * scene.cell_size,
+                  w_beads * scene.cell_size,
+                  h_beads * scene.cell_size)
 
-    painter.fillRect(rect, QColor(255, 255, 255))
-    scene.render(painter, QRectF(painter.viewport()), rect)
+    # scene.render(painter, target, source)
+    # target: area della pagina PDF
+    # source: area della scena
+    target_rect = QRectF(0, 0, pdf.width(), pdf.height())
+    painter.fillRect(target_rect, QColor(255, 255, 255))
+    scene.render(painter, target_rect, rect)
+
     painter.end()
 
     if status_bar:
